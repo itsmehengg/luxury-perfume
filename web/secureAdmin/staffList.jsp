@@ -1,5 +1,5 @@
 <%@page import="dao.UserDAO"%>
-<%@page import="controller.usersServlet"%>
+<%@page import="controller.StaffServlet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="Model.Users" %>
@@ -8,7 +8,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Users Management</title>
+  <title>Staff Management</title>
   <link rel="stylesheet" href="../style.css">
   <script src="js/product.js"></script>
 </head>
@@ -23,7 +23,7 @@
       <div class="error-message">${error}</div>
     </c:if>
     
-    <a href="addUser.jsp" class="btn create">Add New User</a>
+    <a href="addStaff.jsp" class="btn create">Add New Staff</a>
     
     <table>
       <thead>
@@ -34,6 +34,7 @@
           <th>Phone</th>
           <th>Gender</th>
           <th>Role</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
@@ -50,6 +51,10 @@
     <td><%= u.getPhone() %></td>
     <td><%= u.getGender() %></td>
     <td><%= u.getRole() %></td>
+    <td>
+        <a href="StaffServlet?action=edit&id=<%= u.getUserId() %>" class="btn edit">Edit</a>
+        <a href="javascript:void(0)" onclick="confirmDelete('<%= u.getUserId() %>')" class="btn delete">Delete</a>
+    </td>
 
 </tr>
 <%
@@ -64,7 +69,13 @@
     </table>
   </div>
   
-
+  <script>
+    function confirmDelete(userId) {
+      if (confirm('Are you sure you want to delete this user?')) {
+        window.location.href = 'StaffServlet?action=delete&id=' + userId;
+      }
+    }
+  </script>
 
 </body>
 

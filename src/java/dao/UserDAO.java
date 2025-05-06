@@ -116,29 +116,30 @@ public class UserDAO {
         }
     }
 
-    public List<Users> findByRole(String role) {
-        List<Users> list = new ArrayList<>();
-        try {
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users WHERE role = ?");
-            stmt.setString(1, role);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                Users u = new Users(
-                    rs.getInt("user_id"),
-                    rs.getString("name"),
-                    rs.getString("email"),
-                    rs.getString("password"),
-                    rs.getString("phone"),
-                    rs.getString("gender"),
-                    rs.getString("role")
-                );
-                list.add(u);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+public List<Users> findByRole(String role) {
+    List<Users> list = new ArrayList<>();
+    try {
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users WHERE role = ?");
+        stmt.setString(1, role);
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            Users u = new Users(
+                rs.getInt("user_id"),
+                rs.getString("name"),
+                rs.getString("email"),
+                rs.getString("password"),
+                rs.getString("phone"),
+                rs.getString("gender"),
+                rs.getString("role")
+            );
+            list.add(u);
         }
-        return list;
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+    return list;
+}
+
 
     public void close() {
         try {

@@ -125,7 +125,11 @@
             
             <div class="action-card" onclick="window.location.href='users.jsp'">
                 <i class="fas fa-users"></i>
-                <h3>Manage Users</h3>
+                <h3>Manage Customer</h3>
+            </div>
+            <div class="action-card" onclick="window.location.href='staffList.jsp'">
+                <i class="fas fa-users"></i>
+                <h3>Manage Staff</h3>
             </div>
             
             <div class="action-card" onclick="window.location.href='history.jsp'">

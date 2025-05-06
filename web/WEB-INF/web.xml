@@ -8,6 +8,10 @@
         <servlet-name>usersServlet</servlet-name>
         <servlet-class>controller.usersServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>StaffServlet</servlet-name>
+        <servlet-class>controller.StaffServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SignUpServlet</servlet-name>
         <url-pattern>/SignUpServlet</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>usersServlet</servlet-name>
         <url-pattern>/usersServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StaffServlet</servlet-name>
+        <url-pattern>/StaffServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
