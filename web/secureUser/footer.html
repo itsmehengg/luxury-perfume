@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+        <style>
+            /* Footer adjustments */
+        footer {
+            width: 100%;
+            background-color: black;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box; /* Include padding in height calculations */
+        }
+
+        .footer-columns {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        .footer-column {
+            display: flex;
+            flex-direction: column; /* Stack items vertically in each column */
+            gap: 5px; /* Add spacing between items in each column */
+        }
+
+        .footer-column p {
+            margin: 0; /* Remove default margins for tighter spacing */
+        }
+
+        .footer-column a {
+            color: white; /* Ensure links are visible */
+            text-decoration: none; /* Remove underline from links */
+        }
+
+        .footer-column a:hover {
+            text-decoration: underline; /* Add underline on hover for better UX */
+        }
+
+        .footer-line {
+            width: 100%;
+            border-top: 1px solid white;
+            margin: 20px 0;
+        }
+
+        .footer-copyright {
+            text-align: center;
+            font-size: 12px;
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            .footer-columns {
+                flex-direction: column; /* Stack footer columns vertically on smaller screens */
+                align-items: center;
+                text-align: center;
+            }
+
+            .footer-column {
+                align-items: center; /* Center items in each column */
+            }
+        }
+
+        </style>
+    </head>
+    <body>
+
+    <!-- Footer -->
+    <footer style="background-color: #0a0505; color: white; padding: 40px 60px;">
+        <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+
+            <!-- About Us -->
+            <div>
+                <h5>About Us</h5>
+                <ul style="list-style: none; padding-right: 50px;">
+                    <li><a href="#" style="color: white; text-decoration: none; padding-right: 50px;">About Perfume</a></li>
+                    <li><a href="#" style="color: white; text-decoration: none; padding-right: 50px;">Privacy Policy</a></li>
+                    <li><a href="#" style="color: white; text-decoration: none; padding-right: 50px;">Terms of Use</a></li>
+                </ul>
+            </div>
+
+            <!-- Customer Care -->
+            <div>
+                <h5>Customer Care</h5>
+                <ul style="list-style: none; padding-right: 50px;">
+                    <li><a href="#" style="color: white; text-decoration: none; padding-right: 50px;">Delivery</a></li>
+                    <li><a href="#" style="color: white; text-decoration: none; padding-right: 50px;">FAQ</a></li>
+                    <li><a href="#" style="color: white; text-decoration: none; padding-right: 50px;">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <!-- Follows -->
+            <div>
+                <h5>Follows</h5>
+                <ul style="list-style: none; padding-right: 50px;">
+                    <li><a href="https://www.facebook.com/" style="color: white; text-decoration: none;">Facebook</a></li>
+                    <li><a href="https://www.instagram.com/" style="color: white; text-decoration: none;">Instagram</a></li>
+                    <li><a href="https://twitter.com/" style="color: white; text-decoration: none;">X</a></li>
+                </ul>
+            </div>
+
+            <!-- Payment Icons -->
+            <div>
+                <h5>We Accept</h5>
+                <img src="../img/paymentLogo.png" alt="Payment Method">
+            </div>
+        </div>
+
+        <div class="footer-line"></div>
+
+        <p class="footer-copyright">&copy; 2025 ABC Inc. All Rights Reserved.</p>
+    </footer>
+    <!-- Footer -->
+    
+    
+    
+     
+    </body>
+</html>

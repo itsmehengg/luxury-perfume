@@ -1,8 +1,4 @@
-<%-- 
-    Document   : dahsboard
-    Created on : May 5, 2025, 10:24:30 AM
-    Author     : acer
---%>
+
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -124,7 +120,7 @@
         <div class="quick-actions">
             <div class="action-card" onclick="window.location.href='addProduct.jsp'">
                 <i class="fas fa-plus-circle"></i>
-                <h3>Add New Product</h3>
+                <h3>View Product</h3>
             </div>
             
             <div class="action-card" onclick="window.location.href='users.jsp'">

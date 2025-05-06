@@ -1,0 +1,135 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+    header {
+        width: 100%;
+        height: 15vh;
+        background-color: black;
+        display: flex;
+        align-items: center;
+        padding-left: 10px;
+        z-index: 1000;
+    }
+
+    header img {
+        height: 140%;
+        cursor: pointer;
+        margin-left: 100px;
+    }
+
+    .header-links {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin-left: auto;
+        padding-right: 20px;
+    }
+
+    .header-links a {
+        color: white;
+        text-decoration: none;
+        font-size: 16px;
+    }
+
+    .header-links a:hover {
+        text-decoration: underline;
+    }
+
+    .navbar {
+        margin: 0;
+        width: 100%;
+        border-radius: 0;
+    }
+
+    .navbar-nav {
+        margin: 0;
+    }
+
+    .navbar-nav .nav-link.active {
+        border-bottom: 3px solid yellow;
+    }
+
+    .navbar-nav .nav-link {
+        border-bottom: none;
+    }
+
+    .navbar-nav .nav-link:hover {
+        border-bottom: 3px solid lightgray;
+    }
+
+    .input-group .form-control {
+        border-right: none;
+    }
+
+    .input-group .btn {
+        border-left: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .header-left {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin-left: auto;
+        padding-right: 20px;
+    }
+
+    .header-left a {
+        color: white;
+        text-decoration: none;
+        font-size: 16px;
+    }
+</style>
+
+<!-- Header -->
+<header>
+    <img src="../img/transLogo.png" alt="Luxury Perfume" onclick="window.location.href='home.jsp'">
+    <div class="header-left" style="margin-left: 40px">
+        <a href="aboutUs.jsp"><i class="bi bi-info-circle-fill"></i> About us</a>
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=example@gmail.com" target="_blank">
+            <i class="bi bi-envelope-fill"></i> Contact us
+        </a>
+        <a href="storeEvent.html"><i class="bi bi-geo-alt-fill"></i> Store and Events</a>
+    </div>
+    
+    <div class="header-links">
+        <a href="cart.html"><i class="bi bi-cart"></i> Cart</a>
+        <a href="profile.jsp"><i class="fas fa-user fa-lg"></i></a>
+    </div>
+</header>
+
+<!-- Navbar -->
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <!-- Dropdown Menu -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-dark" href="#" id="perfumeDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Perfumes
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="perfumeDropdown">
+                        <li><a class="dropdown-item" href="productMen.jsp">Men's Perfume</a></li>
+                        <li><a class="dropdown-item" href="productWomen.jsp">Women's Perfume</a></li>
+                    </ul>
+                </li>
+                
+            </ul>
+            
+            <a class="nav-link text-dark" href="feedback.jsp">Feedback</a>
+        </div>
+    </div>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

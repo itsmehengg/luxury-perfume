@@ -5,23 +5,26 @@
 package Web;
 
 import Model.Users;
-import Contoller.userDao;
+import dao.UserDAO;
 import java.io.IOException;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  *
  * @author acer
  */
+@WebServlet(name = "userServlet", urlPatterns = {"/userServlet"})
 public class userServlet extends HttpServlet {
-    private userDao userDao;
+    private UserDAO userDao;
     
     @Override
     public void init() throws ServletException {
-        userDao = new userDao();
+        userDao = new UserDAO();
     }
 
     /**
@@ -105,56 +108,54 @@ public class userServlet extends HttpServlet {
 
     private void listUsers(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setAttribute("users", userDao.getAllUsers());
+        request.setAttribute("users", userDao.findAll());
         request.getRequestDispatcher("users.jsp").forward(request, response);
     }
     
     private void showEditForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int userId = Integer.parseInt(request.getParameter("id"));
-        Users user = userDao.getUserById(userId);
+        Users user = userDao.findById(userId);
         request.setAttribute("user", user);
         request.getRequestDispatcher("editUser.jsp").forward(request, response);
     }
     
     private void createUser(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Users user = new Users();
-        populateUserFromRequest(user, request);
-        
-        if (userDao.createUser(user)) {
+        try {
+            Users user = new Users();
+            populateUserFromRequest(user, request);
+            
+            userDao.create(user);
             response.sendRedirect("userServlet?action=list");
-        } else {
-            request.setAttribute("error", "Failed to create user");
+        } catch (Exception e) {
+            request.setAttribute("error", "An error occurred: " + e.getMessage());
             request.getRequestDispatcher("addUser.jsp").forward(request, response);
         }
     }
     
     private void updateUser(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int userId = Integer.parseInt(request.getParameter("userId"));
-        Users user = userDao.getUserById(userId);
-        
-        if (user != null) {
-            populateUserFromRequest(user, request);
-            if (userDao.updateUser(user)) {
+        try {
+            int userId = Integer.parseInt(request.getParameter("userId"));
+            Users user = userDao.findById(userId);
+            
+            if (user != null) {
+                populateUserFromRequest(user, request);
+                userDao.update(user);
                 response.sendRedirect("userServlet?action=list");
-            } else {
-                request.setAttribute("error", "Failed to update user");
-                request.getRequestDispatcher("editUser.jsp").forward(request, response);
             }
+        } catch (Exception e) {
+            request.setAttribute("error", "An error occurred: " + e.getMessage());
+            request.getRequestDispatcher("editUser.jsp").forward(request, response);
         }
     }
     
     private void deleteUser(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int userId = Integer.parseInt(request.getParameter("id"));
-        if (userDao.deleteUser(userId)) {
-            response.sendRedirect("userServlet?action=list");
-        } else {
-            request.setAttribute("error", "Failed to delete user");
-            request.getRequestDispatcher("users.jsp").forward(request, response);
-        }
+        userDao.delete(userId);
+        response.sendRedirect("userServlet?action=list");
     }
     
     private void populateUserFromRequest(Users user, HttpServletRequest request) {
@@ -164,6 +165,11 @@ public class userServlet extends HttpServlet {
         user.setPhone(request.getParameter("phone"));
         user.setGender(request.getParameter("gender"));
         user.setRole(request.getParameter("role"));
+        
+        // Set default role if not provided
+        if (user.getRole() == null || user.getRole().trim().isEmpty()) {
+            user.setRole("staff");
+        }
     }
     
     @Override
