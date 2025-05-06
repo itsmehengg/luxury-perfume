@@ -247,7 +247,7 @@
     </div>
 
     <!-- Footer -->
-    <%@ include file="/secureUser/footer.html" %>
+    <%@ include file="secureUser/footer.html" %>
     <!-- Footer -->
 
     <%
@@ -257,9 +257,11 @@
             String password = request.getParameter("password");
             String phone = request.getParameter("phone");
             String gender = request.getParameter("gender");
+            String role = request.getParameter("role"); // Default is "customer"
+
             
 
-            String dbURL = "jdbc:derby://localhost:1527/asgm";
+            String dbURL = "jdbc:derby://localhost:1527/perfumedb";
             String dbUser = "nbuser";
             String dbPass = "nbuser";
 
@@ -273,7 +275,7 @@
                 stmt.setString(3, email);
                 stmt.setString(4, phone);
                 stmt.setString(5, gender);
-                stmt.setString(6, "user");
+                stmt.setString(6, "customer");
 
                 int result = stmt.executeUpdate();
 

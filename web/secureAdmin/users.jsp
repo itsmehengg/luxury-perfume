@@ -1,11 +1,15 @@
+<%@page import="dao.UserDAO"%>
+<%@page import="controller.usersServlet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="Model.Users" %>
+<%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Users Management</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../style.css">
   <script src="js/product.js"></script>
 </head>
 <body>
@@ -30,24 +34,32 @@
           <th>Phone</th>
           <th>Gender</th>
           <th>Role</th>
-          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        <c:forEach var="user" items="${users}">
-          <tr>
-            <td>${user.userId}</td>
-            <td>${user.name}</td>
-            <td>${user.email}</td>
-            <td>${user.phone}</td>
-            <td>${user.gender}</td>
-            <td>${user.role}</td>
-            <td>
-              <a href="userServlet?action=edit&id=${user.userId}" class="btn edit">Edit</a>
-              <a href="javascript:void(0)" onclick="confirmDelete(${user.userId})" class="btn delete">Delete</a>
-            </td>
-          </tr>
-        </c:forEach>
+<%
+    UserDAO userDao = new UserDAO();
+    List<Users> users = userDao.findAll();
+    if (users != null && !users.isEmpty()) {
+        for (Users u : users) {
+%>
+<tr>
+    <td><%= u.getUserId() %></td>
+    <td><%= u.getName() %></td>
+    <td><%= u.getEmail() %></td>
+    <td><%= u.getPhone() %></td>
+    <td><%= u.getGender() %></td>
+    <td><%= u.getRole() %></td>
+
+</tr>
+<%
+        }
+    } else {
+%>
+<tr><td colspan="7" class="no-records">No users found.</td></tr>
+<%
+    }
+%>
       </tbody>
     </table>
   </div>

@@ -1,87 +1,150 @@
 package dao;
 
-import database.DatabaseConnection;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import Model.Users;
+import java.sql.*;
+import java.util.*;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 public class UserDAO {
-    private EntityManager em;
+    private static final Logger LOGGER = Logger.getLogger(UserDAO.class.getName());
+    private final String jdbcURL = "jdbc:derby://localhost:1527/perfumedb";
+    private final String jdbcUser = "nbuser";
+    private final String jdbcPass = "nbuser";
+    private Connection conn;
 
     public UserDAO() {
-        em = DatabaseConnection.getEntityManager();
-    }
-
-    public void create(Users user) {
         try {
-            em.getTransaction().begin();
-            em.persist(user);
-            em.getTransaction().commit();
+            LOGGER.log(Level.INFO, "Initializing UserDAO");
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
+            conn = DriverManager.getConnection(jdbcURL, jdbcUser, jdbcPass);
+            LOGGER.log(Level.INFO, "Database connection established");
         } catch (Exception e) {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-            throw e;
-        }
-    }
-
-    public Users findById(Integer userId) {
-        return em.find(Users.class, userId);
-    }
-
-    public Users findByEmail(String email) {
-        Query query = em.createQuery("SELECT u FROM Users u WHERE u.email = :email");
-        query.setParameter("email", email);
-        try {
-            return (Users) query.getSingleResult();
-        } catch (Exception e) {
-            return null;
+            LOGGER.log(Level.SEVERE, "Error initializing UserDAO", e);
+            e.printStackTrace();
         }
     }
 
     public List<Users> findAll() {
-        Query query = em.createQuery("SELECT u FROM Users u");
-        return query.getResultList();
+        List<Users> list = new ArrayList<>();
+        try {
+            LOGGER.log(Level.INFO, "Executing findAll query");
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM users");
+            while (rs.next()) {
+                Users u = new Users(
+                    rs.getInt("user_id"),
+                    rs.getString("name"),
+                    rs.getString("email"),
+                    rs.getString("password"),
+                    rs.getString("phone"),
+                    rs.getString("gender"),
+                    rs.getString("role")
+                );
+                list.add(u);
+            }
+            LOGGER.log(Level.INFO, "Found {0} users", list.size());
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error in findAll", e);
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public Users findById(int id) {
+        try {
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM USERS WHERE user_id=?");
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new Users(
+                    rs.getInt("user_id"),
+                    rs.getString("name"),
+                    rs.getString("email"),
+                    rs.getString("password"),
+                    rs.getString("phone"),
+                    rs.getString("gender"),
+                    rs.getString("role")
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void create(Users user) {
+        try {
+            PreparedStatement stmt = conn.prepareStatement(
+                "INSERT INTO USERS (name, password, email, phone, gender, role) VALUES (?, ?, ?, ?, ?, ?)");
+            stmt.setString(1, user.getName());
+            stmt.setString(2, user.getPassword());
+            stmt.setString(3, user.getEmail());
+            stmt.setString(4, user.getPhone());
+            stmt.setString(5, user.getGender());
+            stmt.setString(6, user.getRole());
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void update(Users user) {
         try {
-            em.getTransaction().begin();
-            em.merge(user);
-            em.getTransaction().commit();
+            PreparedStatement stmt = conn.prepareStatement(
+                "UPDATE USERS SET name=?, password=?, email=?, phone=?, gender=?, role=? WHERE user_id=?");
+            stmt.setString(1, user.getName());
+            stmt.setString(2, user.getPassword());
+            stmt.setString(3, user.getEmail());
+            stmt.setString(4, user.getPhone());
+            stmt.setString(5, user.getGender());
+            stmt.setString(6, user.getRole());
+            stmt.setInt(7, user.getUserId());
+            stmt.executeUpdate();
         } catch (Exception e) {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-            throw e;
+            e.printStackTrace();
         }
     }
 
-    public void delete(Integer userId) {
+    public void delete(int id) {
         try {
-            em.getTransaction().begin();
-            Users user = em.find(Users.class, userId);
-            if (user != null) {
-                em.remove(user);
-            }
-            em.getTransaction().commit();
+            PreparedStatement stmt = conn.prepareStatement("DELETE FROM USERS WHERE user_id=?");
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
         } catch (Exception e) {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-            throw e;
+            e.printStackTrace();
         }
     }
 
-    public Users authenticate(String email, String password) {
-        Query query = em.createQuery("SELECT u FROM Users u WHERE u.email = :email AND u.password = :password");
-        query.setParameter("email", email);
-        query.setParameter("password", password);
+    public List<Users> findByRole(String role) {
+        List<Users> list = new ArrayList<>();
         try {
-            return (Users) query.getSingleResult();
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users WHERE role = ?");
+            stmt.setString(1, role);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Users u = new Users(
+                    rs.getInt("user_id"),
+                    rs.getString("name"),
+                    rs.getString("email"),
+                    rs.getString("password"),
+                    rs.getString("phone"),
+                    rs.getString("gender"),
+                    rs.getString("role")
+                );
+                list.add(u);
+            }
         } catch (Exception e) {
-            return null;
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public void close() {
+        try {
+            if (conn != null) conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
-} 
+}

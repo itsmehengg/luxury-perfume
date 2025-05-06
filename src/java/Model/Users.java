@@ -76,11 +76,28 @@ public class Users implements Serializable {
     @OneToMany(mappedBy = "userId")
     private Collection<Cart> cartCollection;
 
-    public Users() {
+    public Users(String name, String email, String password, String phone, String gender, String role) {
+        this.userId = userId;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+        this.gender = gender;
+        this.role = role;
     }
 
     public Users(Integer userId) {
         this.userId = userId;
+    }
+
+    public Users(int userId, String name, String email, String password, String phone, String gender, String role) {
+        this.userId = userId;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+        this.gender = gender;
+        this.role = role;
     }
 
     public Integer getUserId() {

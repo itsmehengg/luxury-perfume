@@ -11,7 +11,7 @@
     <%@ include file="sidebar.jsp" %>
     
     <div class="container">
-        <h1>Add New User</h1>
+        <h1>Add New Staff</h1>
         
         <c:if test="${not empty error}">
             <div class="error-message">${error}</div>
